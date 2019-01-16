@@ -9,13 +9,14 @@ const typeDefs = `
   type Query {
     me: User!
     post: Post!
+    add(numbers: [Float!]!): Float!
     hello(name: String, email: String): String!
     grades: [Int!]!
     height: Float
     isNice: Boolean
   }
 
-  type User {
+  type User { 
     id: ID!
     name: String!
     email: String!
@@ -51,6 +52,13 @@ const resolvers = {
     },
     // root : parents, usefull for relational data. Name : arguments contains the info we need, ctx, info
     hello: (root, { name, email }) => `Hello ${name || 'World'}. Your email : ${email}`,
+    add(root, { numbers }) {
+      if(numbers.length === 0) {
+        return 0;
+      }
+
+      return numbers.reduce((acc, curr) => acc + curr);
+    },
     grades: () => [1, 23, 4, 6],
     height: () => 1.74,
     isNice: () => true,

@@ -4,11 +4,32 @@ const {
 
 // Scalar type : type that stores a single value - String, Boolean, Int, Float, ID
 
+// Demo users data
+
+const users = [{
+  id: '1',
+  name: 'Robert',
+  email: 'robert@example.com',
+  age: 22,
+},
+{
+  id: '1',
+  name: 'Anna',
+  email: 'anna@example.com',
+  age: 32,
+},
+{
+  id: '1',
+  name: 'Sarah',
+  email: 'sarah@example.com',
+}];
+
 // Type definitions (schema) - name of the query and the type that should back
 const typeDefs = `
   type Query {
     me: User!
     post: Post!
+    users(query: String): [User!]!
     add(numbers: [Float!]!): Float!
     hello(name: String, email: String): String!
     grades: [Int!]!
@@ -20,7 +41,7 @@ const typeDefs = `
     id: ID!
     name: String!
     email: String!
-    age(num: Int): Int!
+    age(num: Int): Int
   }
 
   type Post {
@@ -50,6 +71,16 @@ const resolvers = {
         // published: false, renvoie null car pas obligatoire
       };
     },
+    users(root, { query }) {
+      if(!query) {
+        return users;
+      }
+
+      // Filter users by their name
+      return users.filter((user) => {
+        return user.name.toLowerCase().includes(query.toLowerCase());
+      });
+    },
     // root : parents, usefull for relational data. Name : arguments contains the info we need, ctx, info
     hello: (root, { name, email }) => `Hello ${name || 'World'}. Your email : ${email}`,
     add(root, { numbers }) {
@@ -57,6 +88,7 @@ const resolvers = {
         return 0;
       }
 
+      // Sum value of an array
       return numbers.reduce((acc, curr) => acc + curr);
     },
     grades: () => [1, 23, 4, 6],

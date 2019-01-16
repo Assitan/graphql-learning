@@ -10,6 +10,7 @@ const typeDefs = `
     me: User!
     post: Post!
     hello(name: String, email: String): String!
+    grades: [Int!]!
     height: Float
     isNice: Boolean
   }
@@ -50,6 +51,7 @@ const resolvers = {
     },
     // root : parents, usefull for relational data. Name : arguments contains the info we need, ctx, info
     hello: (root, { name, email }) => `Hello ${name || 'World'}. Your email : ${email}`,
+    grades: () => [1, 23, 4, 6],
     height: () => 1.74,
     isNice: () => true,
   },

@@ -5,7 +5,6 @@ const {
 // Scalar type : type that stores a single value - String, Boolean, Int, Float, ID
 
 // Demo users data
-
 const users = [{
   id: '1',
   name: 'Robert',
@@ -13,22 +12,46 @@ const users = [{
   age: 22,
 },
 {
-  id: '1',
+  id: '2',
   name: 'Anna',
   email: 'anna@example.com',
   age: 32,
 },
 {
-  id: '1',
+  id: '3',
   name: 'Sarah',
   email: 'sarah@example.com',
 }];
+
+const posts = [{
+    id: '10',
+    title: 'GraphQL',
+    body: 'This is about GraphQL',
+    published: true,
+    author: '1',
+  },
+  {
+    id: '11',
+    title: 'Data Science',
+    body: 'This is about Data Science',
+    published: false,
+    author: '2',
+  },
+  {
+    id: '12',
+    title: 'TypeScript',
+    body: 'This is about TypeScript',
+    published: false,
+    author: '3',
+  }
+];
 
 // Type definitions (schema) - name of the query and the type that should back
 const typeDefs = `
   type Query {
     me: User!
     post: Post!
+    posts(query: String): [Post!]!
     users(query: String): [User!]!
     add(numbers: [Float!]!): Float!
     hello(name: String, email: String): String!
@@ -49,12 +72,14 @@ const typeDefs = `
     title: String!
     body: String!
     published: Boolean
+    author: User!
   }
 `
 
 // Resolvers (set of functions)
 const resolvers = {
   Query: {
+    // root : parents, usefull for relational data. Name : arguments contains the info we need, ctx, info
     me() {
       return {
         id: '122MK22',
@@ -81,7 +106,18 @@ const resolvers = {
         return user.name.toLowerCase().includes(query.toLowerCase());
       });
     },
-    // root : parents, usefull for relational data. Name : arguments contains the info we need, ctx, info
+    posts(root, { query }) {
+      if(!query) {
+        return posts;
+      }
+
+      // Filter posts by their title or body
+      return posts.filter((post) => {
+        const isTitleMatch = post.title.toLowerCase().includes(query.toLowerCase());
+        const isBodyMatch = post.body.toLowerCase().includes(query.toLowerCase());
+        return isTitleMatch || isBodyMatch;
+      });
+    },
     hello: (root, { name, email }) => `Hello ${name || 'World'}. Your email : ${email}`,
     add(root, { numbers }) {
       if(numbers.length === 0) {
@@ -94,6 +130,14 @@ const resolvers = {
     grades: () => [1, 23, 4, 6],
     height: () => 1.74,
     isNice: () => true,
+  },
+  // Relational data
+  Post: {
+    author(root) {
+      return users.find((user) => {
+        return user.id === root.author;
+      });
+    },
   },
 };
 

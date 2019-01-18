@@ -14,7 +14,7 @@ const users = [{
     id: '3',
     name: 'Sarah',
     email: 'sarah@example.com',
-  }
+  },
 ];
 
 const posts = [{
@@ -37,10 +37,37 @@ const posts = [{
     body: 'This is about TypeScript',
     published: false,
     author: '3',
-  }
+  },
+];
+
+const comments = [{
+    id: '13',
+    text: 'Very interesting',
+    author: '3',
+    post: '10',
+  },
+  {
+    id: '24',
+    text: 'Thank you for the info',
+    author: '3',
+    post: '10',
+  },
+  {
+    id: '35',
+    text: 'I\'m wainting for the next article',
+    author: '1',
+    post: '11',
+  },
+  {
+    id: '43',
+    text: 'I don\'t agree',
+    author: '2',
+    post: '13',
+  },
 ];
 
 export {
   users,
-  posts
+  posts,
+  comments,
 }

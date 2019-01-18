@@ -14,7 +14,7 @@ query {
 ```
 
 ## GraphQL Playground
-Hello world / Users / Posts : [https://graphqlbin.com/v2/91lkCk](https://graphqlbin.com/v2/91lkCk)
+Hello world / Users / Posts / Comments : [https://graphqlbin.com/v2/yoRlhJ](https://graphqlbin.com/v2/yoRlhJ)
 
 ## Test
 ```

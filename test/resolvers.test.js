@@ -12,7 +12,9 @@ describe('Resolvers', () => {
     const args = {};
     const ctx = {};
 
-    const output = Query.name(me, args, ctx);
+    const output = Query.me(me, args, ctx);
+    console.log(output, 'output')
+
 
     expect(output).toEqual('Assitan');
   });

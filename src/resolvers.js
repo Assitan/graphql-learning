@@ -1,6 +1,7 @@
 import {
   posts,
   users,
+  comments,
 } from './data';
 
 export default {
@@ -19,7 +20,7 @@ export default {
         id: '2E3D',
         title: 'Les oiseaux',
         body: 'Lorem Ipsum',
-        // published: false, renvoie null car pas obligatoire
+        // published: false, set null bc not mandatory
       };
     },
     users(parent, {
@@ -48,6 +49,7 @@ export default {
         return isTitleMatch || isBodyMatch;
       });
     },
+    comments: () => comments,
     hello: (parent, {
       name,
       email
@@ -68,17 +70,33 @@ export default {
   },
   // Relational data
   Post: {
+    // returns author's posts
     author(parent) {
-      return users.find((user) => {
-        return user.id === parent.author;
-      });
+      return users.find((user) => user.id === parent.author);
+    },
+    // returns all comments belonging to that post
+    comments(parent) {
+      return comments.filter((comment) => comment.post === parent.id);
     },
   },
   User: {
+    // returns the posts by author
     posts(parent) {
-      return posts.filter((post) => {
-        return post.author === parent.id;
-      });
+      return posts.filter((post) => post.author === parent.id);
+    },
+    // returns all comments belonging to that user
+    comments(parent) {
+      return comments.filter((comment) => comment.author === parent.id);
+    },
+  },
+  Comment: {
+    // returns the user who wrote the comment
+    author(parent) {
+      return users.find((user) => user.id === parent.author);
+    },
+    // get the post belonging to the comment
+    post(parent) {
+      return posts.find((post) => post.id === parent.post);
     },
   },
 };

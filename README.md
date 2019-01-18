@@ -17,4 +17,4 @@ query {
 [https://graphqlbin.com/v2/BNxnsP](https://graphqlbin.com/v2/BNxnsP)
 
 ## Test
-[https://www.apollographql.com/docs/graphql-tools/mocking.html](https://www.apollographql.com/docs/graphql-tools/mocking.html)
+jest [namefolder] --watch

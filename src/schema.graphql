@@ -15,6 +15,7 @@ type User {
   name: String!
   email: String!
   age(num: Int): Int
+  posts: [Post!]!
 }
 
 type Post {

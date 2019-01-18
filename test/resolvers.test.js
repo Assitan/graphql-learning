@@ -1,3 +1,5 @@
+import Query from '~/src/resolvers';
+
 describe('Resolvers', () => {
   it('should give the same name', () => {
     const me = {

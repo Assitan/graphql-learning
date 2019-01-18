@@ -74,4 +74,11 @@ export default {
       });
     },
   },
+  User: {
+    posts(parent) {
+      return posts.filter((post) => {
+        return post.author === parent.id;
+      });
+    },
+  },
 };

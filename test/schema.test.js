@@ -4,6 +4,8 @@ const {
   mockServer
 } = require('graphql-yoga');
 
+import typeDefs from '~/src/schema.graphql';
+
 const testCaseA = {
   id: 'Test case A',
   query: `

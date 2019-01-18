@@ -14,7 +14,9 @@ query {
 ```
 
 ## GraphQL Playground
-[https://graphqlbin.com/v2/BNxnsP](https://graphqlbin.com/v2/BNxnsP)
+Hello world / Users / Posts : [https://graphqlbin.com/v2/91lkCk](https://graphqlbin.com/v2/91lkCk)
 
 ## Test
-jest [namefolder] --watch
+```
+yarn test
+```

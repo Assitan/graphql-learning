@@ -39,6 +39,8 @@ export default {
       query
     }) {
       if (!query) {
+        console.log(posts, 'POST');
+        
         return posts;
       }
 
@@ -95,7 +97,7 @@ export default {
       return users.find((user) => user.id === parent.author);
     },
     // get the post belonging to the comment
-    post(parent) {
+    post(parent) {      
       return posts.find((post) => post.id === parent.post);
     },
   },

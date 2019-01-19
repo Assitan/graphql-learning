@@ -62,7 +62,7 @@ const comments = [{
     id: '43',
     text: 'I don\'t agree',
     author: '2',
-    post: '13',
+    post: '12',
   },
 ];
 

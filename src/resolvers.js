@@ -4,6 +4,8 @@ import {
   comments,
 } from './data';
 
+import uuidv4 from 'uuid/v4';
+
 export default {
   Query: {
     // parent, usefull for relational data. Name : arguments contains the info we need, ctx, info
@@ -67,6 +69,68 @@ export default {
     grades: () => [1, 23, 4, 6],
     height: () => 1.74,
     isNice: () => true,
+  },
+  Mutation: {
+    createUser(parent, { email, name, age }) {
+      const emailTaken = users.some((user) => user.email === email);
+
+      if (emailTaken) {
+        throw new Error('Email taken');
+      }
+
+      const user = {
+        id: uuidv4(),
+        name,
+        email,
+        age,
+      };
+
+      users.push(user);
+
+      return user;
+    },
+    createPost(parent, { title, body, published, author }) {
+      const userExists = users.some((user) => user.id === author);
+
+      if (!userExists) {
+        throw new Error('User not found');
+      }
+
+      const post = {
+        id: uuidv4(),
+        title,
+        body,
+        published,
+        author,
+      };
+
+      posts.push(post);
+
+      return post;
+    },
+    createComment(parent, { text, author, post }) {
+      const userExists = users.some((user) => user.id === author);
+      const postExists = posts.some((post) => post.id === post && post.published);
+
+      if (!userExists) {
+        throw new Error('Unable to found a user');
+      }
+
+      if (!postExists) {
+        throw new Error('Unable to found a post');
+      }
+
+      const comment = {
+        id: uuidv4(),
+        text,
+        author,
+        post,
+      };
+
+      comments.push(comment);
+
+      return comment;
+    },
   },
   // Relational data
   Post: {

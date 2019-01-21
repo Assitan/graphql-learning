@@ -39,8 +39,6 @@ export default {
       query
     }) {
       if (!query) {
-        console.log(posts, 'POST');
-        
         return posts;
       }
 

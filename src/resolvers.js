@@ -8,7 +8,7 @@ import uuidv4 from 'uuid/v4';
 
 export default {
   Query: {
-    // parent, usefull for relational data. Name : arguments contains the info we need, ctx, info
+    // parent, useful for relational data. Name : arguments contains the info we need, ctx, info
     me() {
       return {
         id: '122MK22',
@@ -71,8 +71,8 @@ export default {
     isNice: () => true,
   },
   Mutation: {
-    createUser(parent, { email, name, age }) {
-      const emailTaken = users.some((user) => user.email === email);
+    createUser(parent, args) {
+      const emailTaken = users.some((user) => user.email === args.data.email);
 
       if (emailTaken) {
         throw new Error('Email taken');
@@ -80,17 +80,15 @@ export default {
 
       const user = {
         id: uuidv4(),
-        name,
-        email,
-        age,
+        ...args.data,
       };
 
       users.push(user);
 
       return user;
     },
-    createPost(parent, { title, body, published, author }) {
-      const userExists = users.some((user) => user.id === author);
+    createPost(parent, args ) {
+      const userExists = users.some((user) => user.id === args.data.author);
 
       if (!userExists) {
         throw new Error('User not found');
@@ -98,19 +96,16 @@ export default {
 
       const post = {
         id: uuidv4(),
-        title,
-        body,
-        published,
-        author,
+        ...args.data
       };
 
       posts.push(post);
 
       return post;
     },
-    createComment(parent, { text, author, post }) {
-      const userExists = users.some((user) => user.id === author);
-      const postExists = posts.some((post) => post.id === post && post.published);
+    createComment(parent, args) {
+      const userExists = users.some((user) => user.id === args.data.author);
+      const postExists = posts.some((post) => post.id === args.data.post && args.data.post.published);
 
       if (!userExists) {
         throw new Error('Unable to found a user');
@@ -122,9 +117,7 @@ export default {
 
       const comment = {
         id: uuidv4(),
-        text,
-        author,
-        post,
+        ...args.data,
       };
 
       comments.push(comment);
@@ -132,6 +125,7 @@ export default {
       return comment;
     },
   },
+  // Input type : all the arguments for a mutation
   // Relational data
   Post: {
     // returns author's posts

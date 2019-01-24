@@ -105,7 +105,7 @@ export default {
     },
     createComment(parent, args) {
       const userExists = users.some((user) => user.id === args.data.author);
-      const postExists = posts.some((post) => post.id === args.data.post && args.data.post.published);
+      const postExists = posts.some((post) => post.id === args.data.post && post.published);
 
       if (!userExists) {
         throw new Error('Unable to found a user');

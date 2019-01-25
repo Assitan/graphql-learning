@@ -87,7 +87,64 @@ export default {
 
       return user;
     },
-    createPost(parent, args ) {
+    deleteUser(parent, args) {
+      const userIndex = users.findIndex((user) => user.id === args.id);
+
+      if (userIndex === -1) {
+        throw new Error('User not found, cannot delete');
+      }
+
+      const deleteUser = users.splice(userIndex, 1);
+
+      posts.filter((post) => {
+        const match = post.author === args.id;
+
+        if(match) {
+          comments.filter((comment) => comment.post !== post.id);
+        }
+
+        return !match;
+      });
+
+      comments.filter((comment) => comment.author !== args.id);
+
+      return deleteUser[0];
+    },
+    deletePost(parent, args) {
+      const postIndex = users.findIndex((post) => post.id === args.id);
+
+      if (postIndex === -1) {
+        throw new Error('User not found, cannot delete');
+      }
+
+      const deletePost = post.splice(userIndex, 1);
+
+      posts.filter((post) => {
+        const match = post.author === args.id;
+
+        if (match) {
+          comments.filter((comment) => comment.post !== post.id);
+        }
+
+        return !match;
+      });
+
+      comments.filter((comment) => comment.author !== args.id);
+
+      return deletePost[0];
+    },
+    deleteComment(parent, args) {
+      const commentIndex = comments.findIndex((comment) => comment.id === args.id);
+
+      if (commentIndex === -1) {
+        throw new Error('User not found, cannot delete');
+      }
+
+      const deleteComment = comments.splice(commentIndex, 1);
+
+      return deleteComment[0];
+    },
+    createPost(parent, args) {
       const userExists = users.some((user) => user.id === args.data.author);
 
       if (!userExists) {
